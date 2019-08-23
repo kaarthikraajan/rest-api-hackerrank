@@ -10,24 +10,31 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hackerrank.stocktrade.model.Trade;
 import com.hackerrank.stocktrade.model.User;
 import com.hackerrank.stocktrade.service.TradeService;
+import com.hackerrank.stocktrade.service.UserService;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @RestController
 @EnableSwagger2
+@RequestMapping
 public class StockTradeApiRestController {
 
 	@Autowired
 	TradeService tradeService;
+	
+	@Autowired
+	UserService userService;
 
 	@PostMapping("/trades")
 	public ResponseEntity<String> saveTrade(@RequestBody Trade trade) {
 		if (trade != null) {
+			userService.saveTrade(trade.getUser());
 			tradeService.saveTrade(trade);
 			return new ResponseEntity<String>(HttpStatus.CREATED);
 		} else {
@@ -56,7 +63,7 @@ public class StockTradeApiRestController {
 		return tradeService.findAllTrade();
 	}
 
-	@GetMapping("/trades")
+	@GetMapping("/trades/findAll")
 	public List<User> getUsers() {
 		return tradeService.findAllUser();
 	}
