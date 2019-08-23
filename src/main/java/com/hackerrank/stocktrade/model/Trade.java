@@ -2,9 +2,21 @@ package com.hackerrank.stocktrade.model;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name= "trade")
 public class Trade {
+	@Id
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private String type;
+    @ManyToOne
     private User user;
     private String stockSymbol;
     private Integer stockQuantity;
